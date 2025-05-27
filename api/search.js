@@ -1,4 +1,7 @@
 export default async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // 모든 출처 허용 (*)
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+
   const query = req.query.query;
   if (!query) {
     return res.status(400).json({ error: "검색어가 없습니다." });
@@ -8,8 +11,8 @@ export default async function handler(req, res) {
     `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=1`,
     {
       headers: {
-        'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
-        'X-Naver-Client-Secret': process.env.NAVER_SECRET_KEY
+        "X-Naver-Client-Id": process.env.NAVER_CLIENT_ID,
+        "X-Naver-Client-Secret": process.env.NAVER_SECRET_KEY
       }
     }
   );
@@ -17,3 +20,4 @@ export default async function handler(req, res) {
   const data = await response.json();
   res.status(200).json(data);
 }
+
