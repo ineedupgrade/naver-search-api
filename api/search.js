@@ -4,16 +4,16 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "검색어가 없습니다." });
   }
 
-  const result = await fetch(
-    `https://naveropenapi.apigw.ntruss.com/map-place/v1/search?query=${encodeURIComponent(query)}`,
+  const response = await fetch(
+    `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(query)}&display=1`,
     {
       headers: {
-        'X-NCP-APIGW-API-KEY-ID': process.env.NAVER_CLIENT_ID,
-        'X-NCP-APIGW-API-KEY': process.env.NAVER_SECRET_KEY
+        'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
+        'X-Naver-Client-Secret': process.env.NAVER_SECRET_KEY
       }
     }
   );
 
-  const data = await result.json();
+  const data = await response.json();
   res.status(200).json(data);
 }
